@@ -45,6 +45,18 @@ module.exports = {
                         pretty: true
                     }
             },
+            {
+                test: /\.(jpeg|jpg|png|svg)$/,
+                loader: 'file-loader',
+                exclude: [
+                    path.resolve(__dirname, "./../fonts/")
+                ],
+                options: {
+                    name: '[name].[ext]',
+                    outputPath: 'img',
+                    publicPath: "./../img"
+                }
+            },
         ]
     },
     plugins: [

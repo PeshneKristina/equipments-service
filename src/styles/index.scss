@@ -1,0 +1,100 @@
+
+body{
+  background:url("../image/background.png");
+  background-size: 1920px 870px;
+  background-position-x: -35px;
+
+}
+h1{
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+.left-panel{
+  color: rgb(252,252,252);
+  margin-right: 100px;
+
+
+}
+#equip .makeStyles-demo-3{
+  background: rgb(39,39,39);
+  color: rgb(252,252,252);
+
+}
+.MuiTypography-h6{
+  color: rgb(252,252,252);
+
+
+}
+
+#equip > div > div > div > div > div > h6{
+  margin: 0 0 0 8px;
+}
+#equip > div > div > div > div > ul > li > div > p {
+  background: rgb(39,39,39);
+  color: rgb(252,252,252);
+}
+#equip > div > div > div > div > div > div{
+  background: rgb(66,66,66);
+
+}
+#equip > div > div > div > div > div > div > ul > li > div > p{
+  color: rgb(252,252,252);
+}
+.wrapper{
+  display: flex;
+  flex-direction: row;
+
+}
+.indicatorYes .MuiTreeItem-content::after{
+  content: '\2713'
+}
+
+.indicatorNo .MuiTreeItem-content::after{
+  content: '\2717'
+}
+
+#equip .MuiCardContent-root{
+  padding: 12px;
+}
+#equip > div > div > div > div > div > div > ul > li{
+  padding: 4px 8px;
+}
+
+
+#equip > div > div.wrapperDiv > div.MuiGrid-root.MuiGrid-grid-xs-8 >h2{
+  text-align: center;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  color:rgb(252,252,252);
+}
+
+
+
+
+#equip > div > div.MuiButtonGroup-root.buttonGroup
+{
+  text-align: center;
+}
+
+#root > div > div.MuiTableContainer-root.makeStyles-container-2 > table > thead > tr > th{
+  background-color: rgb(66,66,66);
+  color: rgb(252,252,252);
+}
+
+#equip > div > div.MuiButtonGroup-root > button{
+  color: rgb(252,252,252);
+  border-color: rgb(252,252,252,0.75);
+}
+#root > div > div.MuiTableContainer-root.makeStyles-container-2 > table > tbody > tr> td{
+  color: rgb(252,252,252);
+}
+
+//#equip > div > div.MuiPaper-root.makeStyles-root-2.MuiPaper-elevation1.MuiPaper-rounded > div > table > tbody > tr:hover{
+//  background-color:rgb(66,66,66,0.75) ;
+//}
+
+.hidden{
+  display: none;
+}
+
+.selected{
+  background: rgb(252,252,252,0.2);
+}
