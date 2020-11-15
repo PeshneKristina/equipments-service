@@ -1,5 +1,5 @@
 import React from "react";
-import './styles/index.scss';
+import './index.scss';
 
 //import DataLoader from "./data/DataLoader.js";
 import buildTree from "./data/BuildTree.js";

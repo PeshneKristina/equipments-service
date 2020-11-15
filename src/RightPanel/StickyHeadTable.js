@@ -9,25 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import isRoom from "../EventFunction/isRoom";
 import InputRow from "./InputRow";
-
-
-const columns = [
-    {id: 'name', label: 'Название', minWidth: 170},
-    {
-        id: 'count',
-        label: 'Количество',
-        minWidth: 170,
-        align: 'right',
-        format: (value) => value.toLocaleString('en-US'),
-    },
-];
-
-function createData(name, count) {
-    return {name: name, count: count};
-}
 
 
 const useStyles = makeStyles({
@@ -67,91 +49,56 @@ const useStyles = makeStyles({
 
 });
 
+const columns = [
+    {id: 'name', label: 'Название', minWidth: 170},
+    {
+        id: 'count',
+        label: 'Количество',
+        minWidth: 170,
+        align: 'right',
+        format: (value) => value.toLocaleString('en-US'),
+    },
+];
+
+function createData(name, count) {
+    return {name: name, count: count};
+}
+
+
+const renderListEquipment = (node, listEquipment) => {
+    if (node.data.equipment !== undefined) {
+        node.data.equipment.map(el => listEquipment.push(el));
+
+    }
+    {
+        Array.isArray(node.children) ? node.children.map(node => renderListEquipment(node, listEquipment)) : null
+    }
+}
+
+function isRoom(node) {
+    return node.data.parts === undefined;
+
+}
+
 
 export default function StickyHeadTable({node}) {
+    const classes = useStyles();
     const [equipments, setEquipment] = React.useState(node.data.equipment);
-
     let selectedRow = null;
-
-    function selectRow(e, name) {
-        if (e.currentTarget.classList.contains("selected")) {
-            e.currentTarget.classList.remove("selected");
-            selectedRow = null;
-            return;
-        }
-
-        if (selectedRow !== null) {
-            selectedRow.elem.classList.remove("selected");
-        }
-        e.currentTarget.classList.add("selected");
-        selectedRow = {elem: e.currentTarget, name: name};
-
-    }
-
-    function deleteRow() {
-        if(selectedRow===null){
-            return;
-        }
-        let filteredEquipment = node.data.equipment.filter(equipment => equipment.name !== selectedRow.name);
-        selectedRow.elem.classList.remove("selected");
-        selectedRow = null;
-        node.data.equipment = filteredEquipment;
-        setEquipment(filteredEquipment);
-
-    }
-
-    function addRow(){
-
-    }
-
-    function editRow(){
-        if(selectedRow===null){
-            return;
-        }
-        let inp = document.querySelector("form");
-        inp.classList.remove("hidden");
-    }
-
-    function updateRow(value){
-        let form = document.querySelector("form");
-        form.classList.add("hidden");
-        console.log(node.data.equipment);
-        for(let equipment of node.data.equipment){
-            if(equipment.name === selectedRow.name){
-               equipment.name = value.name;
-               equipment.count = value.count;
-            }
-        }
-        console.log(node.data.equipment);
-        selectedRow.elem.classList.remove("selected");
-        selectedRow = null;
-        setEquipment(node.data.equipment);
+    let selectedElem = document.querySelector(".selected");
+    if (selectedElem != null) {
+        selectedElem.classList.remove("selected");
     }
 
     let listEquipment = [];
-    const renderListEquipment = (node) => {
-        if (node.data.equipment !== undefined) {
-            node.data.equipment.map(el => listEquipment.push(el));
-
-        }
-        {
-            Array.isArray(node.children) ? node.children.map(node => renderListEquipment(node)) : null
-        }
-    }
-    renderListEquipment(node);
-
+    renderListEquipment(node, listEquipment);
 
     const rows = listEquipment.length === 0 ? [createData("нет оборудования", null)] : listEquipment.map(equipment =>
         createData(equipment.name, equipment.count))
 
-
-    const classes = useStyles();
-
     return (
         <div className={classes.wrapperDiv}>
-            <Grid>
-                <h2 className={classes.h2}>{node.data.name}</h2>
-            </Grid>
+            <h2 className={classes.h2}>{node.data.name}</h2>
             <Paper className={classes.root}>
                 <TableContainer className={classes.container}>
                     <Table stickyHeader aria-label="sticky table">
@@ -199,9 +146,94 @@ export default function StickyHeadTable({node}) {
                 <Button onClick={() => deleteRow()}>Удалить</Button>
                 <Button onClick={() => editRow()}>Редактировать</Button>
             </ButtonGroup>
-            <InputRow updateRow={updateRow}  />
+            <div id={"editInput"}>
+                <InputRow updateRow={updateRow}/>
+            </div>
+            <div id={"addInput"}>
+                <InputRow updateRow={createRow}/>
+            </div>
+
         </div>
 
     );
+
+    function selectRow(e, name) {
+        if (e.currentTarget.classList.contains("selected")) {
+            e.currentTarget.classList.remove("selected");
+            selectedRow = null;
+            return;
+        }
+
+        if (selectedRow !== null) {
+            selectedRow.elem.classList.remove("selected");
+        }
+        e.currentTarget.classList.add("selected");
+        selectedRow = {elem: e.currentTarget, name: name};
+
+    }
+
+    function deleteRow() {
+        if (selectedRow === null) {
+            return;
+        }
+        let filteredEquipment = node.data.equipment.filter(equipment => equipment.name !== selectedRow.name);
+        selectedRow.elem.classList.remove("selected");
+        selectedRow = null;
+        node.data.equipment = filteredEquipment;
+        setEquipment(filteredEquipment);
+
+    }
+
+    function editRow() {
+        if (selectedRow === null) {
+            return;
+        }
+        let form = document.getElementById("editInput").querySelector("form");
+        form.classList.remove("hidden");
+    }
+
+    function updateRow(value) {
+        let form = document.getElementById("editInput").querySelector("form");
+        form.classList.add("hidden");
+        let updatedEquipment = node.data.equipment.map(function (equipment) {
+            return equipment.name === selectedRow.name ?
+                {id: equipment.id, name: value.name, count: value.count, place: equipment.place} : equipment;
+        });
+        selectedRow.elem.classList.remove("selected");
+        selectedRow = null;
+        node.data.equipment = updatedEquipment;
+        setEquipment(updatedEquipment);
+
+    }
+
+    function addRow() {
+        let form = document.getElementById("addInput").querySelector("form");
+        form.classList.remove("hidden");
+    }
+
+    function createRow(value) {
+        let form = document.getElementById("addInput").querySelector("form");
+        form.classList.add("hidden");
+        let newEquipment = {
+            id: generationId(),
+            name: value.name,
+            count: value.count,
+            place: node.id
+
+        }
+        let updatedEquipment = node.data.equipment.concat(newEquipment);
+        node.data.equipment = updatedEquipment;
+        setEquipment(updatedEquipment);
+    }
+
+    function generationId() {
+        let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let id = ''
+        for (let i = 0; i < 20; i++) {
+            id += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return id
+
+    }
+
 }
-//onClick={(e) => selectRow(index)}

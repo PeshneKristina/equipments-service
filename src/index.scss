@@ -1,19 +1,12 @@
 
 body{
-  background:url("../image/background.png");
+  background:url("image/background.png");
   background-size: 1920px 870px;
   background-position-x: -35px;
 
 }
-h1{
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-}
-.left-panel{
-  color: rgb(252,252,252);
-  margin-right: 100px;
 
 
-}
 #equip .makeStyles-demo-3{
   background: rgb(39,39,39);
   color: rgb(252,252,252);
@@ -86,10 +79,6 @@ h1{
 #root > div > div.MuiTableContainer-root.makeStyles-container-2 > table > tbody > tr> td{
   color: rgb(252,252,252);
 }
-
-//#equip > div > div.MuiPaper-root.makeStyles-root-2.MuiPaper-elevation1.MuiPaper-rounded > div > table > tbody > tr:hover{
-//  background-color:rgb(66,66,66,0.75) ;
-//}
 
 .hidden{
   display: none;
