@@ -1,1 +1,1 @@
-https://peshnekristina.github.io/PeshneKristinaTestovoe.github.io/
+https://github.com/PeshneKristina/Testovoe.github.io/blob/main/dist/index.html
