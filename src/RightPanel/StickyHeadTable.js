@@ -10,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import InputRow from "./InputRow";
+import firebase from "firebase";
 
 
 const useStyles = makeStyles({
@@ -18,8 +19,8 @@ const useStyles = makeStyles({
         backgroundColor: "rgb(66,66,66,0.8)",
         maxWidth: 426,
         marginBottom: 10,
-
     },
+
     container: {
         maxHeight: 415,
         border: "1px solid rgb(252,252,252,0.75)",
@@ -177,11 +178,31 @@ export default function StickyHeadTable({node}) {
             return;
         }
         let filteredEquipment = node.data.equipment.filter(equipment => equipment.name !== selectedRow.name);
+        let id;
+        for (let equipment of node.data.equipment) {
+            if (equipment.name === selectedRow.name) {
+                id = equipment.id
+            }
+        }
+        if (id !== null) {
+            deleteFromFirebase(id);
+        }
         selectedRow.elem.classList.remove("selected");
         selectedRow = null;
         node.data.equipment = filteredEquipment;
+
         setEquipment(filteredEquipment);
 
+    }
+
+    function setIndicatorNo(node) {
+        if (node.data.equipment.length === 0) {
+            let treeItem = document.getElementById(node.data.id)
+            if (treeItem.classList.contains("indicatorYes")) {
+                treeItem.classList.remove("indicatorYes")
+            }
+            treeItem.classList.add("indicatorNo")
+        }
     }
 
     function editRow() {
@@ -199,9 +220,20 @@ export default function StickyHeadTable({node}) {
             return equipment.name === selectedRow.name ?
                 {id: equipment.id, name: value.name, count: value.count, place: equipment.place} : equipment;
         });
+        let id;
+        for (let equipment of node.data.equipment) {
+            if (equipment.name === selectedRow.name) {
+                id = equipment.id;
+
+            }
+        }
+        if (id !== null) {
+            editFirebase(id, value.name, value.count);
+        }
         selectedRow.elem.classList.remove("selected");
         selectedRow = null;
         node.data.equipment = updatedEquipment;
+
         setEquipment(updatedEquipment);
 
     }
@@ -218,22 +250,56 @@ export default function StickyHeadTable({node}) {
             id: generationId(),
             name: value.name,
             count: value.count,
-            place: node.id
+            place: node.data.id
 
+        }
+        addToFirebase(newEquipment.name, newEquipment.count, newEquipment.place, newEquipment.id)
+        if (node.data.equipment===undefined){
+            node.data.equipment = []
         }
         let updatedEquipment = node.data.equipment.concat(newEquipment);
         node.data.equipment = updatedEquipment;
         setEquipment(updatedEquipment);
     }
 
-    function generationId() {
-        let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        let id = ''
-        for (let i = 0; i < 20; i++) {
-            id += possible.charAt(Math.floor(Math.random() * possible.length));
-        }
-        return id
+}
 
+function deleteFromFirebase(id) {
+    firebase.firestore().collection("inventory").doc(id).delete().then(() => {
+        console.info("Done");
+
+    });
+}
+
+function editFirebase(id, name, count) {
+    firebase.firestore().collection("inventory").doc(id).set({
+        name: name,
+        count: count
+
+    }).then(() => {
+        console.info("Done");
+
+    });
+}
+
+function addToFirebase(name, count, placeId, id) {
+    firebase.firestore().collection("inventory").doc().set({
+        name: name,
+        count: count,
+        place: firebase.firestore().collection("places").doc(placeId)
+    }).then(() => {
+        console.info("Done");
+
+    });
+
+}
+
+function generationId() {
+    let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let id = ''
+    for (let i = 0; i < 20; i++) {
+        id += possible.charAt(Math.floor(Math.random() * possible.length));
     }
+    return id
 
 }

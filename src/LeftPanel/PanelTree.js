@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ReactDOM from "react-dom";
 import {makeStyles} from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
@@ -6,6 +6,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 import StickyHeadTable from "../RightPanel/StickyHeadTable";
+
 
 
 const useStyles = makeStyles({
@@ -25,9 +26,7 @@ const useStyles = makeStyles({
     }
 });
 
-function showEquipment(props) {
-    ReactDOM.render(<StickyHeadTable node={props}/>, document.getElementById("equip"));
-}
+
 
 const renderListEquipment = (node, listEquipment) => {
     if (node.data.equipment !== undefined) {
@@ -44,21 +43,23 @@ function getListEquipment(node) {
     renderListEquipment(node, listEquipment);
     return listEquipment;
 }
-
+function showEquipment(props) {
+    ReactDOM.render(<StickyHeadTable node={props} />, document.getElementById("equip"));
+}
 
 export default function MultiSelectTreeView({props}) {
-
     const classes = useStyles();
     const renderTree = (node) => (
         <TreeItem onClick={(e) => showEquipment(node)}
                   className={getListEquipment(node).length !== 0 ? "indicatorYes" : "indicatorNo"} key={node.data.id}
-                  nodeId={node.data.id}
+                  nodeId={node.data.id} id={node.data.id}
                   label={node.data.name}>
             {Array.isArray(node.children) ? node.children.map((node) => renderTree(node)) : null}
 
 
         </TreeItem>
     );
+
 
     return (
         <div className={classes.leftPanel}>
