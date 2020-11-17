@@ -2,6 +2,9 @@
 
 
 ## install command
+
 npm run build - build project
+
 npm run start - start project
+
 npm run test - run tests
