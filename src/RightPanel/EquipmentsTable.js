@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles({
 
     root: {
-        width: 426.33,
+        width: 426,
         backgroundColor: "rgb(66,66,66,0)",
     },
     rightPanel: {
@@ -23,7 +23,8 @@ const useStyles = makeStyles({
         backgroundColor: "rgb(51,51,51,0.4)",
         padding: 10,
         marginTop: 30,
-        borderRadius: 4
+        borderRadius: 4,
+        textAlign: "center"
     },
     container: {
         boxSizing: "border-box",

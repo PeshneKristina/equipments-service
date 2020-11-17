@@ -12,7 +12,7 @@ const useStyles = makeStyles({
         color: "rgb(252,252,252)",
         width: "50%",
         textAlign: 'left',
-        marginRight: 11,
+        marginRight: 12,
         fontFamily: "Roboto, Helvetica, Arial, sans-serif",
         fontWeight: 500,
         fontSize: 18
