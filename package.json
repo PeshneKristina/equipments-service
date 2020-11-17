@@ -5,7 +5,7 @@
   "main": "func.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "webpack-dev-server --mode development --open",
+    "start": "webpack-dev-server --mode development --open",
     "build": "webpack",
     "test": "jest"
   },

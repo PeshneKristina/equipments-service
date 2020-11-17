@@ -1,15 +1,15 @@
-export default class Node{
+export default class Node {
     constructor(data) {
         this.data = data;
         this.parent = null;
         this.children = [];
     }
 
-    setParent(p){
+    setParent(p) {
         this.parent = p;
     }
 
-    addChild(child){
+    addChild(child) {
         this.children.push(child);
     }
 }

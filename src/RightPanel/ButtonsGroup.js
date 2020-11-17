@@ -8,8 +8,8 @@ import {makeStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 
 const useStyles = makeStyles({
-    root:{
-        width:"100%",
+    root: {
+        width: "100%",
     },
     button: {
         color: "rgb(252,252,252)",
@@ -22,11 +22,11 @@ function isRoom(node) {
 
 }
 
-function ButtonsGroup({node, selectedRow, setSelectedRow, setEquipment,stateButtons, setStateButtons}) {
+function ButtonsGroup({node, selectedRow, setSelectedRow, setEquipment, stateButtons, setStateButtons, setNodes}) {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <ButtonGroup id={"buttonGroup"} className={isRoom(node) ? "": "hidden"} size="large" color="primary">
+            <ButtonGroup id={"buttonGroup"} className={isRoom(node) ? "" : "hidden"} size="large" color="primary">
                 <Button className={classes.button} id="addButton" disabled={stateButtons.add}
                         onClick={() => addRow()}>Добавить</Button>
                 <Button className={classes.button} id="deleteButton" disabled={stateButtons.delete}
@@ -64,6 +64,8 @@ function ButtonsGroup({node, selectedRow, setSelectedRow, setEquipment,stateButt
         setSelectedRow(null);
         node.data.equipment = filteredEquipments;
         setEquipment(filteredEquipments);
+        setNodes();
+
 
     }
 
@@ -102,6 +104,7 @@ function ButtonsGroup({node, selectedRow, setSelectedRow, setEquipment,stateButt
         setSelectedRow(null);
         node.data.equipment = updatedEquipments;
         setEquipment(updatedEquipments);
+        setNodes();
 
     }
 
@@ -128,7 +131,9 @@ function ButtonsGroup({node, selectedRow, setSelectedRow, setEquipment,stateButt
         let updatedEquipment = node.data.equipment.concat(newEquipment);
         node.data.equipment = updatedEquipment;
         setEquipment(updatedEquipment);
+        setNodes();
     }
+
 
 }
 
@@ -145,8 +150,8 @@ function editFirebase(id, count) {
 
     }).then(() => {
         console.info("Done");
-
     });
+
 }
 
 function addToFirebase(name, count, placeId, id) {
@@ -176,8 +181,9 @@ ButtonsGroup.propTypes = {
     selectedRow: PropTypes.object,
     setSelectedRow: PropTypes.func.isRequired,
     setEquipment: PropTypes.func.isRequired,
-    stateButtons:PropTypes.object,
-    setStateButtons:PropTypes.func.isRequired
+    stateButtons: PropTypes.object,
+    setStateButtons: PropTypes.func.isRequired,
+    setNodes: PropTypes.func.isRequired
 }
 
 export default ButtonsGroup;

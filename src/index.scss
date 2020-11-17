@@ -1,60 +1,46 @@
 
-body{
-  background:url("image/background.jpg");
+body {
+  background: url("image/background.jpg");
   background-size: 1920px 870px;
 }
 
 
-#equip > div > div > div > div > div > h6{
+#equip > div > div > div > div > div > h6 {
   margin: 0 0 0 8px;
 }
 
-.wrapper{
+.wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
 
 }
-.indicatorYes .MuiTreeItem-content::after{
+
+.indicatorYes .MuiTreeItem-content::after {
   content: '\2713'
 }
 
-.indicatorNo .MuiTreeItem-content::after{
+.indicatorNo .MuiTreeItem-content::after {
   content: '\2717'
 }
 
-.selected{
-  background: rgb(252,252,252,0.2);
+.selected {
+  background: rgb(252, 252, 252, 0.2);
 }
 
-#editButton:hover,#deleteButton:hover,#addButton:hover{
-  border-color: rgb(252,252,252) ;
+#editButton:hover, #deleteButton:hover, #addButton:hover {
+  border-color: rgb(252, 252, 252);
 }
 
-#editButton:disabled,#deleteButton:disabled,#addButton:disabled{
-  border-color: rgb(252,252,252) ;
-  color: rgb(252,252,252);
+#editButton:disabled, #deleteButton:disabled, #addButton:disabled {
+  border-color: rgb(252, 252, 252);
+  color: rgb(252, 252, 252);
 }
-#buttonGroup.hidden{
+
+#buttonGroup.hidden {
   display: none;
 }
-//.wrapper{
-//  .right-panel{
-//    #equip > div > div > div.makeStyles-root-10 > div.MuiButtonGroup-root.hidden{
-//      display: none;
-//    }
-//  }
-//}
 
-.wrapper {
-  .right-panel {
-    #equip > div > div > div > div.MuiButtonGroup-root.buttonGroup {
-        width: 424px;
-    }
-  }
-}
-
-
-.hidden{
+.hidden {
   display: none;
 }

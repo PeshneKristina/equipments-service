@@ -32,7 +32,7 @@ const renderListEquipment = (node, listEquipment) => {
 }
 
 export function getListEquipment(node) {
-    if (node===undefined){
+    if (node === undefined) {
         return []
     }
     let listEquipment = [];
@@ -41,14 +41,18 @@ export function getListEquipment(node) {
 }
 
 function showEquipment(node, setNodes) {
-    ReactDOM.render(<EquipmentsTable node={node}/>, document.getElementById("equip"));
+    ReactDOM.render(<EquipmentsTable node={node} setNodes={setNodes}/>, document.getElementById("equip"));
 }
 
 export function BuildingsTreeView({buildings}) {
+    const [nodes, setNodes] = React.useState(buildings);
+    if (nodes !== buildings) {
+        setNodes(buildings);
+    }
 
     const classes = useStyles();
     const renderTree = (node) => (
-        <TreeItem onLabelClick={event => event.preventDefault()} onClick={(e) => showEquipment(node)}
+        <TreeItem onLabelClick={event => event.preventDefault()} onClick={(e) => showEquipment(node, setNodes)}
                   className={getListEquipment(node).length !== 0 ? "indicatorYes" : "indicatorNo"} key={node.data.id}
                   nodeId={node.data.id} id={node.data.id}
                   label={node.data.name}>

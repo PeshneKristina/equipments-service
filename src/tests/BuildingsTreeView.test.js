@@ -21,7 +21,12 @@ describe("get list of all equipment for place", () => {
                 parts: undefined,
                 equipment: [
                     {id: 'E9U5pNBr7mHKRqdxyYoy', name: 'Кукла "Африканский диктатор"', count: '9', place: 'main-101'},
-                    {id: 'LcXqUMv5TJEAWk7YfbHd', name: 'Кукольное здание Гаагского суда', count: '1', place: 'main-101'},
+                    {
+                        id: 'LcXqUMv5TJEAWk7YfbHd',
+                        name: 'Кукольное здание Гаагского суда',
+                        count: '1',
+                        place: 'main-101'
+                    },
                 ]
             },
             {

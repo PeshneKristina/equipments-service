@@ -14,12 +14,12 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles({
 
     root: {
-        width: '100%',
+        width: 426.33,
         backgroundColor: "rgb(66,66,66,0)",
     },
-    rightPanel:{
+    rightPanel: {
         marginRight: 120,
-        width: 424,
+        width: 438,
         backgroundColor: "rgb(51,51,51,0.4)",
         padding: 10,
         marginTop: 30,
@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 
     TableCellHead: {
         color: "rgb(252,252,252)",
-        backgroundColor: "rgb(66,66,66)",
+        backgroundColor: "rgb(51,51,51)",
         fontWeight: "bold"
 
     },
@@ -75,7 +75,7 @@ const renderListEquipment = (node, listEquipment) => {
 }
 
 
-function EquipmentsTable({node}) {
+function EquipmentsTable({node, setNodes}) {
     const classes = useStyles();
     const [equipments, setEquipment] = React.useState(node.data.equipment);
     const [selectedRow, setSelectedRow] = React.useState(null);
@@ -86,16 +86,8 @@ function EquipmentsTable({node}) {
         if (selectedElem !== null) {
             selectedElem.classList.remove("selected");
         }
-        let editForm = document.getElementById("editInput").querySelector("form");
-        if(!editForm.classList.contains("hidden")){
-            editForm.classList.add("hidden");
-            setStateButtons({delete: false, add: false, edit: false});
-        }
-        let createForm = document.getElementById("addInput").querySelector("form");
-        if(!createForm.classList.contains("hidden")){
-            createForm.classList.add("hidden");
-            setStateButtons({delete: false, add: false, edit: false});
-        }
+        deleteInputFieldOnChanges();
+        setSelectedRow(null);
         setNodeId(node.data.id);
 
     }
@@ -147,7 +139,7 @@ function EquipmentsTable({node}) {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <ButtonsGroup node={node} selectedRow={selectedRow} setSelectedRow={setSelectedRow}
+                <ButtonsGroup node={node} selectedRow={selectedRow} setSelectedRow={setSelectedRow} setNodes={setNodes}
                               setEquipment={setEquipment} setStateButtons={setStateButtons} stateButtons={stateButtons}>
                 </ButtonsGroup>
             </Paper>
@@ -157,17 +149,7 @@ function EquipmentsTable({node}) {
     );
 
     function selectRow(e, name) {
-        let editForm = document.getElementById("editInput").querySelector("form");
-        if(!editForm.classList.contains("hidden")){
-            editForm.classList.add("hidden");
-            setStateButtons({delete: false, add: false, edit: false});
-        }
-        let createForm = document.getElementById("addInput").querySelector("form");
-        if(!createForm.classList.contains("hidden")){
-            createForm.classList.add("hidden");
-            setStateButtons({delete: false, add: false, edit: false});
-        }
-
+        deleteInputFieldOnChanges()
         if (e.currentTarget.classList.contains("selected")) {
             e.currentTarget.classList.remove("selected");
             setSelectedRow(null);
@@ -182,10 +164,24 @@ function EquipmentsTable({node}) {
 
     }
 
+    function deleteInputFieldOnChanges() {
+        let editForm = document.getElementById("editInput").querySelector("form");
+        if (!editForm.classList.contains("hidden")) {
+            editForm.classList.add("hidden");
+            setStateButtons({delete: false, add: false, edit: false});
+        }
+        let createForm = document.getElementById("addInput").querySelector("form");
+        if (!createForm.classList.contains("hidden")) {
+            createForm.classList.add("hidden");
+            setStateButtons({delete: false, add: false, edit: false});
+        }
+    }
+
 }
 
 EquipmentsTable.propTypes = {
-    node: PropTypes.object.isRequired
+    node: PropTypes.object.isRequired,
+    setNodes: PropTypes.func.isRequired
 }
 
 export default EquipmentsTable;
