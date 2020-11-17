@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import ReactDOM from "react-dom";
 import {makeStyles} from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-import StickyHeadTable from "../RightPanel/StickyHeadTable";
-
+import EquipmentsTable from "../RightPanel/EquipmentsTable";
+import PropTypes from 'prop-types';
 
 
 const useStyles = makeStyles({
@@ -19,38 +19,36 @@ const useStyles = makeStyles({
         fontFamily: "Roboto, Helvetica, Arial, sans-serif"
     },
     leftPanel: {
-        color: "rgb(252,252,252)",
-        marginRight: 100,
-        width: 400
-
+        marginLeft: 120,
+        color: "rgb(252,252,252)"
     }
 });
-
-
 
 const renderListEquipment = (node, listEquipment) => {
     if (node.data.equipment !== undefined) {
         node.data.equipment.map(el => listEquipment.push(el));
-
     }
-    {
-        Array.isArray(node.children) ? node.children.map(node => renderListEquipment(node, listEquipment)) : null
-    }
+    Array.isArray(node.children) ? node.children.map(node => renderListEquipment(node, listEquipment)) : null;
 }
 
-function getListEquipment(node) {
+export function getListEquipment(node) {
+    if (node===undefined){
+        return []
+    }
     let listEquipment = [];
     renderListEquipment(node, listEquipment);
     return listEquipment;
 }
-function showEquipment(props) {
-    ReactDOM.render(<StickyHeadTable node={props} />, document.getElementById("equip"));
+
+function showEquipment(node, setNodes) {
+    ReactDOM.render(<EquipmentsTable node={node}/>, document.getElementById("equip"));
 }
 
-export default function MultiSelectTreeView({props}) {
+export function BuildingsTreeView({buildings}) {
+
     const classes = useStyles();
     const renderTree = (node) => (
-        <TreeItem onClick={(e) => showEquipment(node)}
+        <TreeItem onLabelClick={event => event.preventDefault()} onClick={(e) => showEquipment(node)}
                   className={getListEquipment(node).length !== 0 ? "indicatorYes" : "indicatorNo"} key={node.data.id}
                   nodeId={node.data.id} id={node.data.id}
                   label={node.data.name}>
@@ -60,7 +58,6 @@ export default function MultiSelectTreeView({props}) {
         </TreeItem>
     );
 
-
     return (
         <div className={classes.leftPanel}>
             <h1 className={classes.h1}>Структура компании</h1>
@@ -68,10 +65,15 @@ export default function MultiSelectTreeView({props}) {
                 className={classes.root}
                 defaultCollapseIcon={<ExpandMoreIcon/>}
                 defaultExpandIcon={<ChevronRightIcon/>}
-                multiSelect
             >
-                {props.map(building => renderTree(building))}
+                {buildings.map(building => renderTree(building))}
             </TreeView>
         </div>
     );
 }
+
+
+BuildingsTreeView.propTypes = {
+    buildings: PropTypes.arrayOf(PropTypes.object).isRequired
+}
+

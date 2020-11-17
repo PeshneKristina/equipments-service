@@ -1,7 +1,7 @@
 import React from "react";
 import './index.scss';
 import ReactDOM from "react-dom";
-import RenderLeftPanel from "./LeftPanel/RenderLeftPanel";
+import {RenderBuildingsTree} from "./LeftPanel/RenderBuildingsTree";
 
 
-ReactDOM.render(<RenderLeftPanel/>, document.getElementById("root"))
+ReactDOM.render(<RenderBuildingsTree/>, document.getElementById("root"))

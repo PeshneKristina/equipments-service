@@ -1,5 +1,5 @@
-import MultiSelectTreeView from "./PanelTree";
-import React,{ useEffect } from "react";
+import {BuildingsTreeView} from "./BuildingsTreeView";
+import React, {useEffect} from "react";
 import firebase from "firebase";
 import buildTree from "../BuildTree/BuildTree";
 
@@ -22,29 +22,9 @@ let firebaseConfig = {
 
 };
 
-
 firebase.initializeApp(firebaseConfig);
 
-function addInventoryToPlaces(places, inventories) {
-    let equipmentMap = new Map();
-    for (let el of inventories) {
-        if (!equipmentMap.has(el.place)) {
-            equipmentMap.set(el.place, [el]);
-        } else {
-            let arr = equipmentMap.get(el.place);
-            arr.push(el);
-            equipmentMap.set(el.place, arr)
-        }
-    }
-
-    for (let o of places) {
-        o.equipment = equipmentMap.get(o.id);
-    }
-
-    return places;
-}
-
-export default function RenderLeftPanel() {
+export function RenderBuildingsTree() {
 
     const [places, setPlaces] = React.useState([]);
     const [inventories, setInventories] = React.useState([]);
@@ -87,10 +67,29 @@ export default function RenderLeftPanel() {
             })
     }, [])
 
-    let data = addInventoryToPlaces(places,inventories);
-    let props = buildTree(data);
+    let data = addInventoryToPlaces(places, inventories);
+    let buildings = buildTree(data);
 
     return (
-        <MultiSelectTreeView props={props}/>
+        <BuildingsTreeView buildings={buildings}/>
     )
+}
+
+export function addInventoryToPlaces(places, inventories) {
+    let equipmentMap = new Map();
+    for (let el of inventories) {
+        if (!equipmentMap.has(el.place)) {
+            equipmentMap.set(el.place, [el]);
+        } else {
+            let arr = equipmentMap.get(el.place);
+            arr.push(el);
+            equipmentMap.set(el.place, arr)
+        }
+    }
+
+    for (let o of places) {
+        o.equipment = equipmentMap.get(o.id);
+    }
+
+    return places;
 }

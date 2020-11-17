@@ -8,6 +8,7 @@ module.exports = {
         filename: "index_bundle.js"
     },
     module: {
+
         rules: [
             {
                 test: /\.js$/,
@@ -23,13 +24,10 @@ module.exports = {
             {
                 test: /\.s[ac]ss$/,
                 use: [
-                    // Creates `style` nodes from JS strings
                     {loader: 'style-loader'},
-                    // Translates CSS into CommonJS
                     {loader: 'css-loader'},
                     {loader: 'resolve-url-loader'},
                     {
-                        // Compiles Sass to CSS
                         loader: 'sass-loader',
                         options: {
                             sourceMap: true
@@ -48,15 +46,17 @@ module.exports = {
             {
                 test: /\.(jpeg|jpg|png|svg)$/,
                 loader: 'file-loader',
-                exclude: [
-                    path.resolve(__dirname, "./../fonts/")
-                ],
                 options: {
+                    output: {
+                        outputPath: path.join(__dirname, "/dist"),
+                        filename: "img",
+                        publicPath: "./../img"
+                    },
                     name: '[name].[ext]',
-                    outputPath: 'img',
-                    publicPath: "./../img"
+
                 }
             },
+
         ]
     },
     plugins: [
